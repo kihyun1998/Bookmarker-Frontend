@@ -4,14 +4,17 @@ import React from "react";
 
 type PaginationProps = {
     bookmarks: BookmarksResponse
+    query?: string
 }
 
-const Pagination: React.FC<PaginationProps> = ({bookmarks}) => {
+const Pagination: React.FC<PaginationProps> = ({bookmarks,query}) => {
     const path = "/bookmarks";
-    const firstPage = { pathname: path, query: { page: 1 } }
-    const previousPage = { pathname: path, query: { page: bookmarks.currentPage - 1 } }
-    const nextPage = { pathname: path, query: { page: bookmarks.currentPage + 1 }}
-    const lastPage = { pathname: path, query: { page: bookmarks.totalPages } }
+    const queryParam=(query===undefined || query === "") ? {} : {query: query}
+
+    const firstPage = { pathname: path, query: { page: 1 },...queryParam }
+    const previousPage = { pathname: path, query: { page: bookmarks.currentPage - 1,...queryParam } }
+    const nextPage = { pathname: path, query: { page: bookmarks.currentPage + 1,...queryParam }}
+    const lastPage = { pathname: path, query: { page: bookmarks.totalPages,...queryParam } }
 
     return(
         <div className="pagenation-div">
